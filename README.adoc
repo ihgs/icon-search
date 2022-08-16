@@ -1,0 +1,9 @@
+= Search AWS icon
+
+
+== 事前準備
+
+1. 以下からアセットパッケージをダウンロード
+** https://aws.amazon.com/jp/architecture/icons/
+2. public/iconsに解凍したものをコピー
+3. `npm run gendb` を実行
