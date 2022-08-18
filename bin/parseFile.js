@@ -1,16 +1,24 @@
 const fs = require('fs');
 const path = require('path');
 
-const _parseData = (file, options) => {
+const _parseData = (datamap, file, options) => {
   const filename = path.basename(file);
-  const sep_filename = filename.split('_')[1];
+  const tmp = filename.split('_');
+  const sep_filename = tmp[1];
+  const key = sep_filename.toLowerCase();
+  const size_ext = tmp[2];
   const serviceName = sep_filename.replaceAll('-', ' ');
-  const data = {
-    path: file,
-    serviceName: serviceName,
-    searchwords: serviceName.toLowerCase()
+  if (! (key in datamap)) {
+    const data = {
+      paths: {},
+      serviceName: serviceName,
+      searchwords: serviceName.toLowerCase()
+    }
+    datamap[key] = data;
   }
-  return data;
+  datamap[key].paths[size_ext] = file;
+  
+  return ;
 }
 
 const _hasSuffix = (file, suffix) => {
@@ -27,23 +35,23 @@ const _hasSuffix = (file, suffix) => {
   return false;
 }
 
-const parseWalkSync = (dir, options) => {
-  let results = [];
+const parseWalkSync = (dir, datamap, options) => {
   const list = fs.readdirSync(dir);
   list.forEach(file=>{
     file = path.join(dir, file);
     const stat = fs.statSync(file);
     if( stat && stat.isDirectory()) {
-      results = results.concat(parseWalkSync(file, options));
+      parseWalkSync(file, datamap, options);
     } else {
       const suffix = options.suffix;
       if ( !suffix || suffix.length ==0 || _hasSuffix(file, suffix) ){
-        results.push(_parseData(file))
+        _parseData(datamap, file);
       }
     }
   })
-  return results;
+  return;
 }
 
-const data = parseWalkSync('public/icons', {suffix: ['png']});
-fs.writeFileSync('./public/icons/iconmap.json', JSON.stringify(data));
+const datamap = {};
+parseWalkSync('public/icons', datamap, {suffix: ['png']});
+fs.writeFileSync('./src/iconmap.json', JSON.stringify(datamap));
