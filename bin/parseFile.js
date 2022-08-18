@@ -1,18 +1,52 @@
 const fs = require('fs');
 const path = require('path');
 
+const _parseArchType = (filename) => {
+  const regexStr = /(?:Arch|Arch-Category)_(.*)_(\d*(?:@5x)?)\.(png|svg)/;
+  const match = regexStr.exec(filename);
+  
+  const _serviceKey = match[1];
+  const serviceKey = _serviceKey.toLowerCase();
+  const serviceName = _serviceKey.replaceAll('-', ' ');
+
+  const pathKey = match[2];
+  const ext = match[3];
+  return {serviceKey, serviceName, pathKey, ext}
+}
+
+const _parseResType = (filename) => {
+  const regexStr = /Res_(.*)_(\d*_(?:Light|Dark))\.(png|svg)/;
+  const match = regexStr.exec(filename);
+  console.log(match);
+  
+  const _serviceKey = match[1];
+  const serviceKey = _serviceKey.toLowerCase();
+  const serviceName = _serviceKey.replaceAll('-', ' ');
+
+  const pathKey = match[2];
+  const ext = match[3];
+  return {serviceKey, serviceName, pathKey, ext}
+}
+
+
 const _parseData = (datamap, file, options) => {
   const filename = path.basename(file);
-  const tmp = filename.split('_');
-  const sep_filename = tmp[1];
-  const key = sep_filename.toLowerCase();
-  const size_ext = tmp[2];
-  const serviceName = sep_filename.replaceAll('-', ' ');
+
+  let jsondata; 
+  if (filename.startsWith('Arch')) {
+    jsondata = _parseArchType(filename);
+  } else if (filename.startsWith('Res')){
+    jsondata = _parseResType(filename);
+  }
+
+  const key = jsondata.serviceKey;
+  const size_ext = jsondata.pathKey + '_' + jsondata.ext
+  const searchwords = jsondata.serviceName.toLowerCase().replaceAll('aws', '').replaceAll('amazon', '');
   if (! (key in datamap)) {
     const data = {
       paths: {},
-      serviceName: serviceName,
-      searchwords: serviceName.toLowerCase()
+      serviceName: jsondata.serviceName,
+      searchwords: searchwords
     }
     datamap[key] = data;
   }
