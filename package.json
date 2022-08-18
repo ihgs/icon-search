@@ -7,6 +7,7 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.0",
+    "copy-image-clipboard": "^2.1.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",
@@ -20,7 +21,6 @@
     "eject": "react-scripts eject",
     "gendb": "node bin/parseFile.js public/icons"
   },
-
   "browserslist": {
     "production": [
       ">0.2%",

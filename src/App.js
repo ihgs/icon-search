@@ -31,7 +31,7 @@ function App(props) {
 
   const renderIcons = searched.map((data)=>{
     return (
-        <IconCard icondata={data} />          
+        <IconCard icondata={data} key={data.serviceName} />          
     )
   });
 
