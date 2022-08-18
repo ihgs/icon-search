@@ -6,4 +6,11 @@
 1. 以下からアセットパッケージをダウンロード
 ** https://aws.amazon.com/jp/architecture/icons/
 2. public/iconsに解凍したものをコピー
-3. `npm run gendb` を実行
+3. `npm install`
+4. `npm run gendb` を実行
+
+
+== ビルド
+
+`npm run build` を実行し、buildフォルダにできたものをサーバに配備する
+

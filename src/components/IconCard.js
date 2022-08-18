@@ -1,17 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { copyImageToClipboard } from 'copy-image-clipboard';
 
 function IconCard({icondata}) {
 
+  const [copied, setCopied] = useState(false);
+  
+
   const copyIconImage = (url)=>{
     copyImageToClipboard(url)
       .then(() => {
-        console.log('Image Copied')
+        console.log('Image Copied');
+        setCopied(true);
       })
       .catch((e) => {
-        console.log('Error: ', e.message)
+        console.log('Error: ', e.message);
       })
   }
 
@@ -35,8 +39,10 @@ function IconCard({icondata}) {
       
     return (
       <div>
-        <img src={`${process.env.PUBLIC_URL}/${path}`} alt={path}></img><br />
-        <Button size="sm" variant="secondary" onClick={()=>copyIconImage(path)} style={{margin: "2px 2px 2px 2px"}}>copy to clipboard</Button>
+        <img src={`${process.env.PUBLIC_URL}/${path}`} alt={path}></img>
+        <br />
+        <Button size="sm" variant="secondary" onClick={()=>copyIconImage(path)} style={{margin: "2px 5px 2px 2px"}}>copy to clipboard</Button>
+        {copied && "copied!!"}
       </div>
     );
   }
