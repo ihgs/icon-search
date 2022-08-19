@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+
 const _parseArchType = (filename) => {
   const regexStr = /(?:Arch|Arch-Category)_(.*)_(\d*(?:@5x)?)\.(png|svg)/;
   const match = regexStr.exec(filename);
@@ -17,7 +18,6 @@ const _parseArchType = (filename) => {
 const _parseResType = (filename) => {
   const regexStr = /Res_(.*)_(\d*_(?:Light|Dark))\.(png|svg)/;
   const match = regexStr.exec(filename);
-  console.log(match);
   
   const _serviceKey = match[1];
   const serviceKey = _serviceKey.toLowerCase();
@@ -28,6 +28,13 @@ const _parseResType = (filename) => {
   return {serviceKey, serviceName, pathKey, ext}
 }
 
+const customwordsdata = require("./custom.json");
+const _customwords = (key) => {
+  if (customwordsdata && key in customwordsdata) {
+    return customwordsdata[key];
+  }
+  return null;
+}
 
 const _parseData = (datamap, file, options) => {
   const filename = path.basename(file);
@@ -46,7 +53,11 @@ const _parseData = (datamap, file, options) => {
     const data = {
       paths: {},
       serviceName: jsondata.serviceName,
-      searchwords: searchwords
+      searchwords: searchwords,
+    }
+    const customwords =  _customwords(key);
+    if (customwords) {
+      data['customwords'] = customwords;
     }
     datamap[key] = data;
   }

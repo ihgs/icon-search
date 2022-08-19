@@ -11,13 +11,16 @@ function App(props) {
   const iconmap = require("./iconmap.json");
 
   const filterIcon = (word) => {
+    const custom_targets = [];
     const targets = [];
     for (let [ , value] of Object.entries(iconmap)){
-      if ( value.searchwords.indexOf(word.toLowerCase()) >= 0) {
+      if ( value.customwords && value.customwords.indexOf(word.toLowerCase()) >= 0 ) {
+        custom_targets.push(value);
+      } else if ( value.searchwords.indexOf(word.toLowerCase()) >= 0) {
         targets.push(value);
       }
     }
-    setSearched(targets);
+    setSearched(custom_targets.concat(targets));
     return targets;
   }
 
