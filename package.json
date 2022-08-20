@@ -2,6 +2,7 @@
   "name": "aws-icons-template",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://ihgs.github.io/icon-search",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -19,7 +20,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "gendb": "node bin/parseFile.js public/icons"
+    "gendb": "node bin/parseFile.js public/icons",
+    "deploy": "npm run build;gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -32,5 +34,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^4.0.0"
   }
 }
