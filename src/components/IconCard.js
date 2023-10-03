@@ -37,10 +37,12 @@ function IconCard({icondata}) {
     if (pathkey == null){
       pathkey = keys[0];
     }
-    let path =  icondata.paths[pathkey].replaceAll('public/','');
+    let path = icondata.paths[pathkey]
     if (path.indexOf('\\')){
       path = path.replaceAll('\\', '/')
     }
+    path =  path.replaceAll('public/','');
+
     return (
       <div>
         <img src={`${process.env.PUBLIC_URL}/${path}`} alt={path}></img>
