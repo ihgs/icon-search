@@ -6,6 +6,7 @@ import { copyImageToClipboard } from 'copy-image-clipboard';
 function IconCard({icondata}) {
 
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState(null);
   
 
   const copyIconImage = (url)=>{
@@ -16,6 +17,7 @@ function IconCard({icondata}) {
       })
       .catch((e) => {
         console.log('Error: ', e.message);
+        setError(e.message);
       })
   }
 
@@ -35,14 +37,21 @@ function IconCard({icondata}) {
     if (pathkey == null){
       pathkey = keys[0];
     }
-    const path =  icondata.paths[pathkey].replaceAll('public/','');
-      
+    let path =  icondata.paths[pathkey].replaceAll('public/','');
+    if (path.indexOf('\\')){
+      path = path.replaceAll('\\', '/')
+    }
     return (
       <div>
         <img src={`${process.env.PUBLIC_URL}/${path}`} alt={path}></img>
         <br />
         <Button size="sm" variant="secondary" onClick={()=>copyIconImage(path)} style={{margin: "2px 5px 2px 2px"}}>copy to clipboard</Button>
         {copied && "copied!!"}
+        {error && (
+          <div style={{color:'red'}}>
+            Error: {error}
+          </div>
+        )}
       </div>
     );
   }
