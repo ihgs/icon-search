@@ -5,7 +5,6 @@ const path = require('path');
 const _parseArchType = (filename) => {
   const regexStr = /(?:Arch|Arch-Category)_(.*)_(\d*(?:@5x)?)\.(png|svg)/;
   const match = regexStr.exec(filename);
-  
   const _serviceKey = match[1];
   const serviceKey = _serviceKey.toLowerCase();
   const serviceName = _serviceKey.replaceAll('-', ' ');
@@ -16,9 +15,8 @@ const _parseArchType = (filename) => {
 }
 
 const _parseResType = (filename) => {
-  const regexStr = /Res_(.*)_(\d*_(?:Light|Dark))\.(png|svg)/;
+  const regexStr = /Res_(.*)_(\d*(?:_(?:Light|Dark))?)\.(png|svg)/;
   const match = regexStr.exec(filename);
-  
   const _serviceKey = match[1];
   const serviceKey = _serviceKey.toLowerCase();
   const serviceName = _serviceKey.replaceAll('-', ' ');
