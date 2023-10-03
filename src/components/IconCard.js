@@ -47,7 +47,7 @@ function IconCard({icondata}) {
       <div>
         <img src={`${process.env.PUBLIC_URL}/${path}`} alt={path}></img>
         <br />
-        <Button size="sm" variant="secondary" onClick={()=>copyIconImage(path)} style={{margin: "2px 5px 2px 2px"}}>copy to clipboard</Button>
+        <Button size="sm" variant="secondary" onClick={()=>copyIconImage(`${process.env.PUBLIC_URL}/${path}`)} style={{margin: "2px 5px 2px 2px"}}>copy to clipboard</Button>
         {copied && "copied!!"}
         {error && (
           <div style={{color:'red'}}>
